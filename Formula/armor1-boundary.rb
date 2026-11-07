@@ -2,8 +2,10 @@
 class Armor1Boundary < Formula
   desc "Run coding agents in a sandbox governed by your organization's policy"
   homepage "https://armor1.ai"
-  url "https://github.com/Armor1AI/homebrew-boundary/releases/download/v0.1.37/armor1-boundary-0.1.37.tar.gz"
-  sha256 "49e2c131fa57025ef721807d409f7834c849024838b7ccdac960a6ae2a32d345"
+  url "https://github.com/Armor1AI/homebrew-boundary/releases/download/v0.1.38/armor1-boundary-0.1.38.tar.gz"
+  sha256 "802a94ec573413ddd058417c09c56b9cedfe138d3c71f67cd20a1fa010d931ee"
+  # Proprietary: SPDX has no identifier for it, and this is Homebrew's value for that (ARM-1477).
+  license :cannot_represent
 
   depends_on arch: :arm64
   depends_on :macos
