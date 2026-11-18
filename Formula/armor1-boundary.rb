@@ -2,8 +2,8 @@
 class Armor1Boundary < Formula
   desc "Run coding agents in a sandbox governed by your organization's policy"
   homepage "https://armor1.ai"
-  url "https://github.com/Armor1AI/homebrew-boundary/releases/download/v0.1.48/armor1-boundary-0.1.48.tar.gz"
-  sha256 "bc91fe62b8fa00346ac8f73e39d60328079f0f69680b45f0408c16be7bc28512"
+  url "https://github.com/Armor1AI/homebrew-boundary/releases/download/v0.1.49/armor1-boundary-0.1.49.tar.gz"
+  sha256 "803d69938b987fac915adbbe6945e26feefa057611890a2e67c3d70aca110feb"
   # Proprietary: SPDX has no identifier for it, and this is Homebrew's value for that (ARM-1477).
   license :cannot_represent
 
@@ -18,6 +18,9 @@ class Armor1Boundary < Formula
     # opt_libexec, not libexec: the account's install records this path, and it survives upgrades.
     (bin/"armor1-boundary").write_env_script libexec/"brew/armor1-boundary", ARMOR1_BREW_APP: opt_libexec
     bin.install_symlink bin/"armor1-boundary" => "aby"
+    # ARM-1584: this runs with Homebrew's empty build HOME, so the command prints the payload's scripts without
+    # running setup. libexec's command, not bin's: bin's names opt_libexec, not yet this version during an upgrade.
+    generate_completions_from_executable(libexec/"brew/armor1-boundary", "completion", shells: [:bash, :zsh])
   end
 
   def caveats
@@ -40,5 +43,6 @@ class Armor1Boundary < Formula
     # A fresh account answers from the formula's VERSION without running setup.
     assert_equal "armor1-boundary #{version}", shell_output("#{bin}/armor1-boundary --version").strip
     assert_equal "armor1-boundary #{version}", shell_output("#{bin}/aby --version").strip
+    assert_match "#compdef armor1-boundary aby", shell_output("#{bin}/armor1-boundary completion zsh")
   end
 end
